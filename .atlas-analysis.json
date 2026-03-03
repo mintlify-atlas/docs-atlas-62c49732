@@ -1,0 +1,80 @@
+{
+  "projectType": "general",
+  "projectName": "Draw Folder Structure",
+  "projectDescription": "VS Code extension that generates beautiful Markdown representations of folder and file structures with customizable styles.",
+  "theme": "palm",
+  "primaryColor": "#2E7D32",
+  "lightColor": "#66BB6A",
+  "darkColor": "#1B5E20",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/configuration",
+              "guides/styling-options",
+              "guides/exclusion-patterns",
+              "guides/advanced-usage"
+            ]
+          },
+          {
+            "group": "Examples",
+            "pages": [
+              "examples/basic-usage",
+              "examples/custom-styles",
+              "examples/gitignore-integration"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Configuration",
+            "pages": [
+              "api/configuration-options",
+              "api/style-reference"
+            ]
+          },
+          {
+            "group": "Telemetry",
+            "pages": [
+              "api/telemetry"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Generate Markdown folder structure with one click",
+    "20+ customizable drawing styles including emoji and ASCII options",
+    "Flexible exclusion patterns using glob syntax",
+    "Optional .gitignore integration",
+    "Automatic clipboard integration",
+    "Configurable recursion depth"
+  ],
+  "publicApiSurface": [
+    "extension.generateMarkdownStructure - Main command to generate structure",
+    "draw.folder.structure.exclude - Configuration for exclusion patterns",
+    "draw.folder.structure.style - Configuration for drawing style",
+    "draw.folder.structure.allowRecursion - Configuration for recursive exploration",
+    "draw.folder.structure.respectGitignore - Configuration for .gitignore support",
+    "Style enum - All available drawing styles (ClassicDashes, EmojiDashes, MinimalistDots, etc.)",
+    "generateStructure() - Core function to generate folder structure",
+    "getPrefix() - Function to get style-specific prefix for each item",
+    "findFiles() - Function to discover files with exclusion support"
+  ]
+}
