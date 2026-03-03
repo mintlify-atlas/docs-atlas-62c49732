@@ -1,0 +1,228 @@
+---
+title: 'Configuration'
+description: 'Learn how to configure Draw Folder Structure to customize your folder structure output'
+---
+
+## Overview
+
+Draw Folder Structure provides several configuration options to customize how your folder structures are generated. All settings can be configured through VS Code's settings interface or by editing your `settings.json` file directly.
+
+## Accessing Settings
+
+There are two ways to access and modify the extension's configuration:
+
+<Tabs>
+  <Tab title="Settings UI">
+    1. Open VS Code Settings (`Ctrl+,` or `Cmd+,` on Mac)
+    2. Search for "Draw Folder Structure"
+    3. Modify any setting directly in the UI
+  </Tab>
+  <Tab title="settings.json">
+    1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac)
+    2. Type "Preferences: Open User Settings (JSON)"
+    3. Add or modify settings under the `draw.folder.structure` namespace
+  </Tab>
+</Tabs>
+
+## Configuration Options
+
+### Exclude Patterns
+
+**Setting:** `draw.folder.structure.exclude`
+
+**Type:** Array of strings
+
+**Default:**
+```json
+[
+  "**/node_modules",
+  "**/.git",
+  "**/dist",
+  "**/.next",
+  "**/out"
+]
+```
+
+**Description:** File and folder patterns to exclude when generating the Markdown structure. Uses glob pattern syntax.
+
+See the [Exclusion Patterns](/guides/exclusion-patterns) guide for detailed examples.
+
+### Style
+
+**Setting:** `draw.folder.structure.style`
+
+**Type:** String (enum)
+
+**Default:** `"EmojiDashes"`
+
+**Options:** ClassicDashes, MinimalistDots, EmojiFun, EmojiMinimalist, EmojiDashes, Arrows, NestedCircles, BoldBlocks, SlashSeparators, ChevronIndicators, DotDashMix, Triangles, Zigzag, PipesAndHyphens, NestedSquares, CirclesAndLines, SparklesDesing, TrailDesign, FloralDesign, GalacticDesign
+
+**Description:** The visual style used to render the folder structure.
+
+See the [Styling Options](/guides/styling-options) guide for visual examples of each style.
+
+### Allow Recursion
+
+**Setting:** `draw.folder.structure.allowRecursion`
+
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** Controls whether the extension explores subdirectories recursively.
+
+- **`true`**: Generates a complete project tree with all subdirectories
+- **`false`**: Only includes files and folders in the root of the selected directory
+
+### Respect Gitignore
+
+**Setting:** `draw.folder.structure.respectGitignore`
+
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** Determines whether to honor rules defined in your project's `.gitignore` file.
+
+- **`true`**: Excludes files and folders that match `.gitignore` patterns
+- **`false`**: Includes all files regardless of `.gitignore` rules
+
+<Note>
+  When enabled, this setting helps omit dependencies and temporary files that aren't relevant to the structure view.
+</Note>
+
+## Configuration Examples
+
+### Basic Configuration
+
+Minimal configuration with default exclusions and style:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist"
+  ],
+  "draw.folder.structure.style": "EmojiDashes"
+}
+```
+
+### Shallow Structure (Non-Recursive)
+
+Generate only the top-level structure without diving into subdirectories:
+
+```json
+{
+  "draw.folder.structure.allowRecursion": false,
+  "draw.folder.structure.style": "ClassicDashes"
+}
+```
+
+### Respecting .gitignore
+
+Exclude files based on your `.gitignore` rules:
+
+```json
+{
+  "draw.folder.structure.respectGitignore": true,
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git"
+  ]
+}
+```
+
+### Full Configuration Example
+
+Complete configuration with all options:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/.next",
+    "**/out",
+    "**/coverage",
+    "**/*.log"
+  ],
+  "draw.folder.structure.style": "EmojiDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": false
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Keep Default Exclusions">
+    The default exclusion patterns (`node_modules`, `.git`, `dist`, `.next`, `out`) are commonly used directories that bloat folder structures. Keep these in your configuration and add additional patterns as needed.
+  </Accordion>
+
+  <Accordion title="Choose the Right Style">
+    Different styles work better for different contexts:
+    - Use **ClassicDashes** or **PipesAndHyphens** for traditional documentation
+    - Use **EmojiDashes** or **EmojiFun** for more visual, engaging documentation
+    - Use **MinimalistDots** for clean, simple structures
+  </Accordion>
+
+  <Accordion title="Combine exclusions with .gitignore">
+    When `respectGitignore` is enabled, it works in addition to your exclude patterns. Use both together to have fine-grained control:
+    - `.gitignore` for version control exclusions
+    - `exclude` patterns for documentation-specific exclusions
+  </Accordion>
+
+  <Accordion title="Use allowRecursion Strategically">
+    For large projects, consider:
+    - Setting `allowRecursion: false` when documenting only the top-level structure
+    - Using specific exclusion patterns instead of disabling recursion when you need selective depth
+  </Accordion>
+</AccordionGroup>
+
+## Workspace vs User Settings
+
+<Warning>
+  Settings can be configured at both the User and Workspace level. Workspace settings override User settings.
+</Warning>
+
+**User Settings**: Apply globally across all VS Code projects
+- File location: `%APPDATA%\Code\User\settings.json` (Windows) or `~/Library/Application Support/Code/User/settings.json` (Mac)
+
+**Workspace Settings**: Apply only to the current workspace
+- File location: `.vscode/settings.json` in your project root
+
+### Example Workspace Configuration
+
+Create a `.vscode/settings.json` file in your project:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/build",
+    "**/coverage"
+  ],
+  "draw.folder.structure.style": "ClassicDashes"
+}
+```
+
+This allows team members to share consistent folder structure generation settings.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Styling Options" icon="palette" href="/guides/styling-options">
+    Explore all 20+ visual styles available
+  </Card>
+  <Card title="Exclusion Patterns" icon="filter" href="/guides/exclusion-patterns">
+    Learn glob pattern syntax and common exclusion patterns
+  </Card>
+  <Card title="Advanced Usage" icon="wand-magic-sparkles" href="/guides/advanced-usage">
+    Master advanced features and optimization techniques
+  </Card>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Get started with basic usage
+  </Card>
+</CardGroup>

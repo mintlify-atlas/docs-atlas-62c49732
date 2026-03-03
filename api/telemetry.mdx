@@ -1,0 +1,289 @@
+---
+title: Telemetry
+description: Information about telemetry data collection, privacy, and implementation in Draw Folder Structure
+---
+
+## Overview
+
+Draw Folder Structure collects anonymous performance and usage data to help improve functionality and stability. All telemetry is designed with privacy in mind and does not collect any personally identifiable information or sensitive project data.
+
+## What is Collected
+
+The extension collects the following types of data:
+
+### Performance Metrics
+
+<ResponseField name="duration" type="number">
+  Time taken to generate folder structure (in milliseconds)
+</ResponseField>
+
+<ResponseField name="outputLength" type="number">
+  Length of the generated Markdown output
+</ResponseField>
+
+### Usage Statistics
+
+<ResponseField name="style" type="string">
+  The drawing style used for generation (e.g., "EmojiDashes", "ClassicDashes")
+</ResponseField>
+
+<ResponseField name="isDirectory" type="boolean">
+  Whether the selected item was a directory or file
+</ResponseField>
+
+<ResponseField name="allowRecursion" type="boolean">
+  Whether recursive folder exploration was enabled
+</ResponseField>
+
+<ResponseField name="respectGitignore" type="boolean">
+  Whether .gitignore rules were respected
+</ResponseField>
+
+<ResponseField name="excludePatternsCount" type="number">
+  Number of exclusion patterns configured
+</ResponseField>
+
+### Technical Context
+
+<ResponseField name="extension.name" type="string">
+  Extension identifier: "drawfolderstructure"
+</ResponseField>
+
+<ResponseField name="extension.version" type="string">
+  Version of the Draw Folder Structure extension
+</ResponseField>
+
+<ResponseField name="vscode.version" type="string">
+  Version of VS Code being used
+</ResponseField>
+
+<ResponseField name="vscode.language" type="string">
+  VS Code language/locale setting
+</ResponseField>
+
+<ResponseField name="os.platform" type="string">
+  Operating system platform (e.g., "linux", "darwin", "win32")
+</ResponseField>
+
+<ResponseField name="os.arch" type="string">
+  System architecture (e.g., "x64", "arm64")
+</ResponseField>
+
+### Error Information
+
+<ResponseField name="errorType" type="string">
+  Type of error encountered (if any)
+</ResponseField>
+
+<ResponseField name="exception" type="Error">
+  Technical error information to improve stability (no file paths or content)
+</ResponseField>
+
+## What is NOT Collected
+
+<Warning>
+  The following data is **never** collected:
+  
+  - File content or file names
+  - Specific file paths
+  - Folder names or structure details
+  - Personally identifiable information (PII)
+  - Authentication credentials
+  - API keys or secrets
+  - Any sensitive project data
+  - User's name, email, or location
+</Warning>
+
+## Tracked Events
+
+The extension tracks the following events:
+
+### Extension Lifecycle
+
+<ResponseField name="ExtensionActivated" type="event">
+  Triggered when the extension is activated.
+  
+  **Properties:**
+  - `version`: Current extension version
+  - `isFirstActivation`: Whether this is the first time activating
+  - `previousVersion`: Previously installed version (if any)
+</ResponseField>
+
+<ResponseField name="ExtensionUpdated" type="event">
+  Triggered when the extension is updated to a new version.
+  
+  **Properties:**
+  - `fromVersion`: Previous version
+  - `toVersion`: New version
+</ResponseField>
+
+<ResponseField name="ExtensionDeactivated" type="event">
+  Triggered when the extension is deactivated.
+  
+  **Properties:**
+  - `version`: Current extension version
+</ResponseField>
+
+### Command Execution
+
+<ResponseField name="GenerateStructureCommand" type="event">
+  Triggered when the "Generate Markdown structure" command is executed.
+  
+  **Properties:**
+  - `style`: Drawing style used
+  - `isDirectory`: Whether target was a directory
+  - `allowRecursion`: Recursion setting
+  - `respectGitignore`: Gitignore setting
+  - `excludePatternsCount`: Number of exclusion patterns
+  - `success`: Whether generation succeeded
+  - `errorType`: Type of error (if failed)
+  
+  **Measurements:**
+  - `duration`: Time taken (ms)
+  - `outputLength`: Length of output
+</ResponseField>
+
+### Telemetry Service
+
+<ResponseField name="TelemetryServiceInitialized" type="event">
+  Triggered when the telemetry service initializes successfully.
+  
+  **Properties:**
+  - `initializationTime`: ISO timestamp
+  - `hasClient`: Whether Azure client initialized
+</ResponseField>
+
+## Implementation
+
+The telemetry system is implemented using Azure Application Insights via the `applicationinsights` npm package.
+
+### Service Location
+
+The telemetry service is defined in `src/services/telemetry.ts:1`
+
+### Key Features
+
+<AccordionGroup>
+  <Accordion title="Automatic Collection Control">
+    The service disables most automatic collection features to ensure privacy:
+    
+    ```typescript
+    appInsights
+      .setup(connectionString)
+      .setAutoCollectRequests(false)
+      .setAutoCollectPerformance(false, false)
+      .setAutoCollectExceptions(true)
+      .setAutoCollectDependencies(false)
+      .setAutoCollectConsole(false, false)
+      .setAutoCollectPreAggregatedMetrics(false)
+      .setSendLiveMetrics(false)
+      .setInternalLogging(false, false)
+      .start();
+    ```
+    
+    Only exception tracking is enabled to help identify and fix bugs.
+  </Accordion>
+  
+  <Accordion title="Common Properties">
+    Every telemetry event includes common properties for context:
+    
+    ```typescript
+    this.client.commonProperties = {
+      "extension.name": "drawfolderstructure",
+      "extension.version": vscode.extensions.getExtension(
+        "jmkrivocapich.drawfolderstructure"
+      )?.packageJSON.version || "unknown",
+      "vscode.version": vscode.version,
+      "vscode.language": vscode.env.language,
+      "os.platform": process.platform,
+      "os.arch": process.arch,
+    };
+    ```
+  </Accordion>
+  
+  <Accordion title="Graceful Failure">
+    All telemetry operations fail silently to ensure they never impact extension functionality:
+    
+    ```typescript
+    public trackEvent(eventName: string, properties?: { [key: string]: string }) {
+      if (this.isEnabled && this.client) {
+        try {
+          this.client.trackEvent({ name: eventName, properties });
+        } catch (error) {
+          // Silently fail
+        }
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### API Methods
+
+The telemetry service exposes the following methods:
+
+```typescript
+// Track custom events
+trackEvent(
+  eventName: string,
+  properties?: { [key: string]: string },
+  measurements?: { [key: string]: number }
+): void
+
+// Track exceptions
+trackException(
+  exception: Error,
+  properties?: { [key: string]: string }
+): void
+
+// Track metrics
+trackMetric(
+  name: string,
+  value: number,
+  properties?: { [key: string]: string }
+): void
+
+// Flush pending telemetry
+flush(): void
+
+// Clean up resources
+dispose(): void
+```
+
+## Privacy and Compliance
+
+<Info>
+  All telemetry data is:
+  
+  - **Anonymous**: No personally identifiable information
+  - **Aggregate**: Used to understand overall usage patterns
+  - **Secure**: Transmitted over encrypted connections
+  - **Purpose-limited**: Used solely to improve the extension
+</Info>
+
+### Data Retention
+
+Telemetry data is stored in Azure Application Insights according to Azure's data retention policies. For more details, see [Azure Application Insights documentation](https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-retention-privacy).
+
+### Opting Out
+
+If you wish to disable telemetry:
+
+1. The extension respects VS Code's global telemetry settings
+2. You can disable telemetry for all extensions in VS Code settings:
+   - Open Settings (`Ctrl+,` or `Cmd+,`)
+   - Search for "telemetry"
+   - Set `telemetry.telemetryLevel` to `off`
+
+## Source Code Reference
+
+- Telemetry service implementation: `src/services/telemetry.ts:1`
+- Event tracking in extension: `src/extension.ts:1`
+- Azure Application Insights setup details: `AZURE_INSIGHTS_SETUP.md` (in source repository)
+
+## Questions or Concerns
+
+If you have any questions or concerns about telemetry and privacy, please:
+
+- Open an issue on [GitHub](https://github.com/krivoox/draw-folder-structure)
+- Contact the developer at jm.krivocapich@gmail.com

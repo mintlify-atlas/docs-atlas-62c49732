@@ -1,0 +1,142 @@
+---
+title: Configuration Options
+description: Complete API reference for all configuration settings in Draw Folder Structure
+---
+
+## Overview
+
+Draw Folder Structure provides several configuration options to customize how your folder structures are generated. All settings can be configured in your VS Code `settings.json` file.
+
+## Configuration Settings
+
+<ParamField path="draw.folder.structure.exclude" type="array" default='["**/node_modules", "**/.git", "**/dist", "**/.next", "**/out"]'>
+  File and folder patterns to exclude when generating the Markdown structure.
+  
+  Accepts glob patterns for flexible exclusion rules:
+  
+  - **Exclude specific folders:** `"**/node_modules"`, `"**/dist"`
+  - **Exclude specific files:** `"**/archivo1.txt"`, `"**/archivo2.js"`
+  - **Exclude by file extension:** `"**/*.log"`, `"**/*.tmp"`
+  
+  <Expandable title="Example">
+    ```json settings.json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",
+        "**/.git",
+        "**/dist",
+        "**/*.log",
+        "**/temp"
+      ]
+    }
+    ```
+  </Expandable>
+</ParamField>
+
+<ParamField path="draw.folder.structure.style" type="string" default="EmojiDashes">
+  Drawing style for folder structure visualization.
+  
+  Available options:
+  - `ClassicDashes`
+  - `MinimalistDots`
+  - `EmojiFun`
+  - `EmojiMinimalist`
+  - `EmojiDashes`
+  - `Arrows`
+  - `NestedCircles`
+  - `BoldBlocks`
+  - `SlashSeparators`
+  - `ChevronIndicators`
+  - `DotDashMix`
+  - `Triangles`
+  - `Zigzag`
+  - `PipesAndHyphens`
+  - `NestedSquares`
+  - `CirclesAndLines`
+  - `SparklesDesing`
+  - `TrailDesign`
+  - `FloralDesign`
+  - `GalacticDesign`
+  
+  See the [Style Reference](/api/style-reference) for visual examples of each style.
+  
+  <Expandable title="Example">
+    ```json settings.json
+    {
+      "draw.folder.structure.style": "ClassicDashes"
+    }
+    ```
+  </Expandable>
+</ParamField>
+
+<ParamField path="draw.folder.structure.allowRecursion" type="boolean" default={true}>
+  Allow recursive folder exploration.
+  
+  - **`true` (default):** The extension will explore all subdirectories under the base folder, generating a complete and detailed project tree.
+  - **`false`:** Only the files and folders in the root of the selected directory are included, providing a shallow structure without subdirectories.
+  
+  <Expandable title="Example">
+    ```json settings.json
+    {
+      "draw.folder.structure.allowRecursion": false
+    }
+    ```
+  </Expandable>
+</ParamField>
+
+<ParamField path="draw.folder.structure.respectGitignore" type="boolean" default={false}>
+  Respect `.gitignore` rules when generating structure.
+  
+  - **`true`:** The extension loads the `.gitignore` file (if it exists) and excludes any files or folders that match the specified patterns. Useful for omitting dependencies or temporary files.
+  - **`false` (default):** All files and folders are included, regardless of what is defined in `.gitignore`.
+  
+  <Expandable title="Example">
+    ```json settings.json
+    {
+      "draw.folder.structure.respectGitignore": true
+    }
+    ```
+  </Expandable>
+</ParamField>
+
+## Complete Configuration Example
+
+Here's a complete example showing all available configuration options:
+
+```json settings.json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/.next",
+    "**/out",
+    "**/*.log"
+  ],
+  "draw.folder.structure.style": "EmojiDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": false
+}
+```
+
+## Accessing Settings
+
+### Via VS Code UI
+
+1. Open VS Code Settings (`Ctrl+,` or `Cmd+,`)
+2. Search for "Draw Folder Structure"
+3. Modify any setting directly in the UI
+
+### Via settings.json
+
+1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+2. Type "Preferences: Open Settings (JSON)"
+3. Add or modify the configuration options
+
+## Configuration Scope
+
+All configuration options can be set at:
+- **User level:** Applies globally to all workspaces
+- **Workspace level:** Applies only to the current workspace
+
+Workspace settings override user settings when both are present.

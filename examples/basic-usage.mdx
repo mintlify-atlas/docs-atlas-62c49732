@@ -1,0 +1,210 @@
+---
+title: 'Basic Usage'
+description: 'Step-by-step guide to generating folder structures with Draw Folder Structure'
+icon: 'play'
+---
+
+## Quick Start
+
+Draw Folder Structure makes it incredibly easy to generate markdown representations of your project structure. Follow these simple steps to get started.
+
+<Steps>
+  <Step title="Navigate to File Explorer">
+    Open the file explorer in VS Code (View > Explorer or `Cmd/Ctrl+Shift+E`)
+  </Step>
+  
+  <Step title="Right-click on a Folder or File">
+    In the file explorer, right-click on any folder or file you want to generate a structure for.
+    
+    <Tip>You can select any folder at any level - the root project folder, a subdirectory, or even a single file.</Tip>
+  </Step>
+  
+  <Step title="Select 'Generate Markdown structure'">
+    From the context menu, click on **"Generate Markdown structure"**
+    
+    The extension will:
+    - Generate the markdown structure
+    - Automatically copy it to your clipboard
+    - Open a new document showing the generated structure
+  </Step>
+  
+  <Step title="Use the Generated Structure">
+    You'll see a success notification: "Markdown structure copied to clipboard!"
+    
+    Now you can paste the structure anywhere you need it - README files, documentation, issues, or pull requests.
+  </Step>
+</Steps>
+
+## What Gets Generated
+
+When you run the command, the extension creates a markdown-formatted text representation of your folder and file structure. The output is automatically wrapped in markdown code blocks for proper formatting.
+
+### Example Output
+
+For a typical VS Code extension project, the generated structure looks like this:
+
+<CodeGroup>
+```markdown Default Style (EmojiDashes)
+```
+└── 📁 src
+  ├──  extension.ts
+  ├── 📁 functions
+    ├──  generate-structure.ts
+    ├──  find-files.ts
+    └──  get-prefix.ts
+  ├── 📁 services
+    └──  telemetry.ts
+  ├── 📁 types
+    └──  style.ts
+  └── 📁 assets
+    ├──  drawstructurelogo.png
+    └──  screen01.png
+```
+```
+
+```markdown For a Single File
+```
+├──  package.json
+```
+```
+
+```markdown For Root Directory
+```
+└── 📁 my-project
+  ├──  package.json
+  ├──  tsconfig.json
+  ├──  README.md
+  ├── 📁 src
+    ├──  index.ts
+    └──  utils.ts
+  └── 📁 tests
+    └──  index.test.ts
+```
+```
+</CodeGroup>
+
+## Clipboard Integration
+
+One of the most convenient features is the automatic clipboard integration:
+
+<Info>
+  Every time you generate a structure, it's automatically copied to your clipboard. No need to manually select and copy the text!
+</Info>
+
+### How It Works
+
+1. **Automatic Copy**: When the command completes, the markdown structure is written to your system clipboard
+2. **Visual Confirmation**: You'll see a notification message confirming the copy
+3. **Ready to Paste**: Simply use `Cmd/Ctrl+V` to paste the structure anywhere
+
+### Usage Examples
+
+<Tabs>
+  <Tab title="README Documentation">
+    ```markdown
+    # Project Structure
+    
+    Here's an overview of our project organization:
+    
+    ```
+    └── 📁 my-app
+      ├──  index.js
+      ├── 📁 components
+      └── 📁 utils
+    ```
+    ```
+  </Tab>
+  
+  <Tab title="GitHub Issues">
+    When reporting bugs or discussing features, paste the structure to provide context:
+    
+    ```markdown
+    **Current Structure:**
+    ```
+    └── 📁 src
+      ├──  App.tsx
+      └── 📁 components
+    ```
+    
+    **Proposed Structure:**
+    ```
+    └── 📁 src
+      ├──  App.tsx
+      ├── 📁 components
+      └── 📁 hooks
+    ```
+    ```
+  </Tab>
+  
+  <Tab title="Pull Requests">
+    Show what files you've added or organized:
+    
+    ```markdown
+    ## Changes
+    
+    Reorganized the project structure:
+    
+    ```
+    └── 📁 src
+      ├── 📁 features
+        ├── 📁 auth
+        ├── 📁 dashboard
+        └── 📁 profile
+    ```
+    ```
+  </Tab>
+</Tabs>
+
+## Quick Tips
+
+<CardGroup cols={2}>
+  <Card title="Keyboard Shortcut" icon="keyboard">
+    While there's no default keyboard shortcut, you can add one in VS Code:
+    
+    1. Open Keyboard Shortcuts (`Cmd/Ctrl+K Cmd/Ctrl+S`)
+    2. Search for "Generate Markdown structure"
+    3. Assign your preferred shortcut
+  </Card>
+  
+  <Card title="Command Palette" icon="terminal">
+    You can also run the command from the Command Palette:
+    
+    1. Press `Cmd/Ctrl+Shift+P`
+    2. Type "Generate Markdown structure"
+    3. Press Enter
+    
+    Note: Make sure a file or folder is selected in the explorer first.
+  </Card>
+  
+  <Card title="Multiple Structures" icon="copy">
+    Need to document multiple folders?
+    
+    - Generate each structure separately
+    - Each generation overwrites the clipboard
+    - Paste each one before generating the next
+  </Card>
+  
+  <Card title="Large Folders" icon="folder-tree">
+    For folders with many files:
+    
+    - Use [exclusion patterns](/guides/exclusion-patterns) to filter unnecessary files
+    - Consider using [.gitignore integration](/examples/gitignore-integration)
+    - Disable recursion for shallow structures
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={3}>
+  <Card title="Customize Styles" icon="palette" href="/examples/custom-styles">
+    Explore 20+ different visual styles for your folder structures
+  </Card>
+  
+  <Card title="Configure Settings" icon="gear" href="/guides/configuration">
+    Learn about all available configuration options
+  </Card>
+  
+  <Card title="Exclude Patterns" icon="filter" href="/guides/exclusion-patterns">
+    Set up patterns to exclude specific files and folders
+  </Card>
+</CardGroup>

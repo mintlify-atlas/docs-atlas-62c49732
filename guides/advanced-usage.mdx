@@ -1,0 +1,680 @@
+---
+title: 'Advanced Usage'
+description: 'Master advanced features and optimization techniques for complex scenarios'
+---
+
+## Overview
+
+This guide covers advanced features and techniques for using Draw Folder Structure in complex projects. Learn how to optimize performance, combine settings strategically, and handle edge cases.
+
+## Recursion Control
+
+The `allowRecursion` setting controls whether the extension explores subdirectories when generating structures.
+
+### How It Works
+
+When you right-click on a folder:
+
+- **`allowRecursion: true`** (default) - Generates a complete tree of all subdirectories
+- **`allowRecursion: false`** - Shows only immediate children (one level deep)
+
+### Configuration
+
+```json
+{
+  "draw.folder.structure.allowRecursion": false
+}
+```
+
+### Use Cases
+
+<AccordionGroup>
+  <Accordion title="Top-Level Overview" defaultOpen>
+    Disable recursion when you only want to show the main structure:
+
+    ```json
+    {
+      "draw.folder.structure.allowRecursion": false,
+      "draw.folder.structure.style": "ClassicDashes"
+    }
+    ```
+
+    **Result for a project:**
+    ```
+    my-project
+      └── src
+      └── tests
+      └── docs
+      ├── package.json
+      └── README.md
+    ```
+
+    Perfect for high-level documentation that doesn't need implementation details.
+  </Accordion>
+
+  <Accordion title="Performance Optimization">
+    For very large projects (1000+ files), disabling recursion on the root folder improves generation speed:
+
+    ```json
+    {
+      "draw.folder.structure.allowRecursion": false
+    }
+    ```
+
+    Then selectively run the command on specific subdirectories with recursion enabled.
+  </Accordion>
+
+  <Accordion title="Documentation Sections">
+    Generate separate structures for different sections:
+
+    **settings.json:**
+    ```json
+    {
+      "draw.folder.structure.allowRecursion": true
+    }
+    ```
+
+    **Workflow:**
+    1. Right-click `src/` folder → Generate structure → Copy to "Source Code" section
+    2. Right-click `tests/` folder → Generate structure → Copy to "Test Suite" section
+    3. Right-click `docs/` folder → Generate structure → Copy to "Documentation" section
+  </Accordion>
+</AccordionGroup>
+
+### Recursion with Exclusions
+
+Combine recursion with exclusions for fine-grained control:
+
+```json
+{
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/coverage",
+    "**/src/generated"  // Exclude specific deep paths
+  ]
+}
+```
+
+This allows recursive exploration but skips specified directories.
+
+## .gitignore Integration
+
+The `respectGitignore` setting instructs the extension to honor your project's `.gitignore` rules.
+
+### How It Works
+
+When enabled, the extension:
+1. Locates the `.gitignore` file in your project root
+2. Parses the patterns defined in it
+3. Excludes any matching files or folders from the generated structure
+
+### Configuration
+
+```json
+{
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+### Use Cases
+
+<AccordionGroup>
+  <Accordion title="Clean Repository View" defaultOpen>
+    Show only files that are tracked by Git:
+
+    ```json
+    {
+      "draw.folder.structure.respectGitignore": true,
+      "draw.folder.structure.exclude": [
+        "**/.git"  // Still exclude .git folder itself
+      ]
+    }
+    ```
+
+    This is perfect for documentation that mirrors your repository structure.
+  </Accordion>
+
+  <Accordion title="Environment-Aware Structures">
+    Your `.gitignore` typically excludes:
+    - Environment files (`.env`, `.env.local`)
+    - Build artifacts
+    - Dependencies
+    - IDE files
+
+    Enable `respectGitignore` to automatically exclude all of these without manually configuring exclusion patterns.
+  </Accordion>
+
+  <Accordion title="Team Consistency">
+    When your team shares a `.gitignore`, enabling this setting ensures everyone generates consistent structure documentation:
+
+    ```json
+    {
+      "draw.folder.structure.respectGitignore": true
+    }
+    ```
+
+    Commit this configuration in `.vscode/settings.json` for team-wide consistency.
+  </Accordion>
+</AccordionGroup>
+
+### Combining with Exclusion Patterns
+
+Exclusion patterns and `.gitignore` work additively:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/temp"  // Additional exclusions beyond .gitignore
+  ],
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+Files matching **either** source will be excluded.
+
+<Warning>
+  There's no way to "un-exclude" something from `.gitignore`. If a file is ignored by Git and you want it in your structure, you must disable `respectGitignore`.
+</Warning>
+
+### Example Scenario
+
+**Your .gitignore:**
+```gitignore
+node_modules/
+.env
+*.log
+dist/
+coverage/
+```
+
+**Your settings.json:**
+```json
+{
+  "draw.folder.structure.respectGitignore": true,
+  "draw.folder.structure.exclude": [
+    "**/.git",
+    "**/docs/drafts"  // Extra exclusion not in .gitignore
+  ]
+}
+```
+
+**Result:** Excludes everything from `.gitignore` PLUS `docs/drafts/`.
+
+## Combining Multiple Settings
+
+The real power comes from combining all settings for complex scenarios.
+
+### Scenario 1: Large Monorepo
+
+**Challenge:** Generate documentation for a monorepo with multiple packages.
+
+**Solution:**
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/coverage",
+    "**/.turbo",
+    "**/packages/*/node_modules"  // Exclude nested node_modules
+  ],
+  "draw.folder.structure.style": "ClassicDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+**Workflow:**
+1. Right-click the `packages/` folder to see all packages
+2. Right-click individual packages for detailed views
+
+### Scenario 2: Documentation-Only Structure
+
+**Challenge:** Show only source files relevant for documentation.
+
+**Solution:**
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/build",
+    "**/*.test.{js,ts,jsx,tsx}",
+    "**/*.spec.{js,ts,jsx,tsx}",
+    "**/__tests__",
+    "**/coverage",
+    "**/.vscode",
+    "**/.idea",
+    "**/*.config.{js,ts}",
+    "**/package-lock.json"
+  ],
+  "draw.folder.structure.style": "EmojiDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": false
+}
+```
+
+This shows a clean structure with only source files and documentation.
+
+### Scenario 3: API Documentation
+
+**Challenge:** Document only the API routes and handlers.
+
+**Solution:**
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/components",  // Exclude frontend code
+    "**/styles",
+    "**/public",
+    "**/*.test.*"
+  ],
+  "draw.folder.structure.style": "Arrows",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": false
+}
+```
+
+**Workflow:** Right-click the `api/` or `routes/` folder to generate API-specific documentation.
+
+### Scenario 4: Quick Root Overview
+
+**Challenge:** Show only the root-level structure for project README.
+
+**Solution:**
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git"
+  ],
+  "draw.folder.structure.style": "MinimalistDots",
+  "draw.folder.structure.allowRecursion": false,  // Key setting
+  "draw.folder.structure.respectGitignore": false
+}
+```
+
+Perfect for README files that need a birds-eye view.
+
+### Scenario 5: Multi-Language Project
+
+**Challenge:** Document a project with backend and frontend in different languages.
+
+**Solution:**
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/venv",
+    "**/.git",
+    "**/dist",
+    "**/build",
+    "**/target",  // Rust/Java
+    "**/vendor"   // Go/PHP
+  ],
+  "draw.folder.structure.style": "NestedCircles",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+Excludes common build artifacts across multiple language ecosystems.
+
+## Performance Tips
+
+Optimize structure generation for large projects:
+
+<AccordionGroup>
+  <Accordion title="Exclude Large Directories First" defaultOpen>
+    Always exclude the largest directories:
+
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",  // Often 100k+ files
+        "**/.git",          // Git history
+        "**/dist",
+        "**/build"
+      ]
+    }
+    ```
+
+    This can reduce generation time from minutes to seconds.
+  </Accordion>
+
+  <Accordion title="Use Recursion Strategically">
+    For projects with 1000+ files:
+
+    1. Disable recursion at root level:
+       ```json
+       {"draw.folder.structure.allowRecursion": false}
+       ```
+    2. Generate top-level structure
+    3. Re-enable recursion:
+       ```json
+       {"draw.folder.structure.allowRecursion": true}
+       ```
+    4. Generate structures for specific subdirectories
+
+    This gives you control over which parts to explore deeply.
+  </Accordion>
+
+  <Accordion title="Leverage .gitignore">
+    Enable `respectGitignore` to automatically exclude most irrelevant files:
+
+    ```json
+    {
+      "draw.folder.structure.respectGitignore": true
+    }
+    ```
+
+    This is faster than maintaining extensive exclusion lists.
+  </Accordion>
+
+  <Accordion title="Use Specific Patterns">
+    **Slow (scans more files):**
+    ```json
+    {"draw.folder.structure.exclude": ["**/test"]}
+    ```
+
+    **Faster (more specific):**
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/src/test",
+        "**/lib/test"
+      ]
+    }
+    ```
+
+    More specific patterns reduce the scanning scope.
+  </Accordion>
+</AccordionGroup>
+
+## Workspace-Specific Configurations
+
+For projects with unique requirements, use workspace settings.
+
+### Creating Workspace Settings
+
+1. Create `.vscode/settings.json` in your project root:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/packages/legacy"  // Project-specific
+  ],
+  "draw.folder.structure.style": "EmojiDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+2. Commit this file to version control
+3. Team members get consistent structure generation
+
+### Multiple Profile Strategy
+
+Use VS Code profiles for different documentation needs:
+
+**Profile 1: Developer Documentation**
+```json
+{
+  "draw.folder.structure.exclude": ["**/node_modules", "**/.git"],
+  "draw.folder.structure.style": "ClassicDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": false
+}
+```
+
+**Profile 2: User Documentation**
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/tests",
+    "**/*.test.*",
+    "**/internal"
+  ],
+  "draw.folder.structure.style": "EmojiFun",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+Switch profiles depending on your documentation audience.
+
+## Advanced Exclusion Techniques
+
+### Dynamic Exclusions Based on Context
+
+Adjust exclusions for different contexts:
+
+<Tabs>
+  <Tab title="API Documentation">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",
+        "**/.git",
+        "**/frontend",
+        "**/components",
+        "**/styles",
+        "**/public"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Frontend Documentation">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",
+        "**/.git",
+        "**/api",
+        "**/server",
+        "**/database"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Full Stack Documentation">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",
+        "**/.git",
+        "**/dist",
+        "**/build",
+        "**/coverage"
+      ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Excluding Generated Code
+
+Many projects have code generation tools. Exclude generated files:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/__generated__",        // Relay, GraphQL
+    "**/generated",
+    "**/*.generated.{ts,js}",
+    "**/migrations/*.ts",      // Database migrations
+    "**/prisma/client"        // Prisma client
+  ]
+}
+```
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Structure Takes Too Long to Generate">
+    **Causes:**
+    - Not excluding large directories (node_modules, .git)
+    - Too many files being scanned
+
+    **Solutions:**
+    1. Add common exclusions:
+       ```json
+       {
+         "draw.folder.structure.exclude": [
+           "**/node_modules",
+           "**/.git",
+           "**/dist"
+         ]
+       }
+       ```
+    2. Enable `respectGitignore`
+    3. Try `allowRecursion: false` for initial scan
+  </Accordion>
+
+  <Accordion title="Important Files Are Missing">
+    **Causes:**
+    - Too aggressive exclusion patterns
+    - `.gitignore` excluding necessary files
+
+    **Solutions:**
+    1. Review your exclusion patterns
+    2. Disable `respectGitignore` temporarily:
+       ```json
+       {"draw.folder.structure.respectGitignore": false}
+       ```
+    3. Use negation patterns to include specific files:
+       ```json
+       {
+         "draw.folder.structure.exclude": [
+           "**/config",
+           "!**/config/important.js"
+         ]
+       }
+       ```
+  </Accordion>
+
+  <Accordion title="Structure Doesn't Match Expectations">
+    **Causes:**
+    - Recursion disabled when you need it
+    - Workspace settings overriding user settings
+
+    **Solutions:**
+    1. Check recursion setting:
+       ```json
+       {"draw.folder.structure.allowRecursion": true}
+       ```
+    2. Check for workspace settings in `.vscode/settings.json`
+    3. Verify exclusion patterns are correct
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices Summary
+
+<CardGroup cols={2}>
+  <Card title="Start Simple" icon="seedling">
+    Begin with default settings and add exclusions as needed. Don't over-configure initially.
+  </Card>
+
+  <Card title="Use .gitignore" icon="git-alt">
+    Enable `respectGitignore` for automatic, consistent exclusions across your team.
+  </Card>
+
+  <Card title="Document Your Config" icon="book">
+    Add comments in `.vscode/settings.json` to explain project-specific patterns.
+  </Card>
+
+  <Card title="Test Incrementally" icon="flask">
+    Make one configuration change at a time and test the output before adding more.
+  </Card>
+</CardGroup>
+
+## Real-World Examples
+
+### Next.js Blog Project
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/.next",
+    "**/out",
+    "**/public/images",  // Large image directory
+    "**/*.lock"
+  ],
+  "draw.folder.structure.style": "EmojiDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+### React Component Library
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/storybook-static",
+    "**/*.test.tsx",
+    "**/*.stories.tsx",
+    "**/coverage"
+  ],
+  "draw.folder.structure.style": "NestedCircles",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": false
+}
+```
+
+### Express.js API Server
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/logs",
+    "**/*.log",
+    "**/coverage",
+    "**/*.test.js"
+  ],
+  "draw.folder.structure.style": "ClassicDashes",
+  "draw.folder.structure.allowRecursion": true,
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration Reference" icon="gear" href="/guides/configuration">
+    Detailed reference for all configuration options
+  </Card>
+  <Card title="Exclusion Patterns" icon="filter" href="/guides/exclusion-patterns">
+    Deep dive into glob pattern syntax
+  </Card>
+  <Card title="Styling Options" icon="palette" href="/guides/styling-options">
+    Explore all available visual styles
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/configuration-options">
+    Complete API documentation
+  </Card>
+</CardGroup>

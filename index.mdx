@@ -1,97 +1,59 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: Introduction
+description: Generate markdown representations of your folder and file structure with 20+ customizable styles
 ---
 
-## Setting up
+Draw Folder Structure is a Visual Studio Code extension designed to visually represent your project's folder and file structure in Markdown format. Ideal for documentation and overview purposes, this tool simplifies the process of sharing and understanding project structures.
 
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={3}>
+  <Card title="Installation" icon="download" href="/installation">
+    Install the extension from VS Code Marketplace
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Generate your first folder structure in seconds
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Configuration" icon="gear" href="/guides/configuration">
+    Customize styles, exclusions, and behavior
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## What it does
 
-Everything you need to create world-class documentation.
+Draw Folder Structure generates a clean, visual representation of your project's directory tree in Markdown format. Simply right-click any folder in VS Code's file explorer, select "Generate Markdown structure", and the extension will create a formatted structure that's automatically copied to your clipboard and displayed in a new editor tab.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+The generated structure is wrapped in Markdown code blocks and can be pasted directly into README files, documentation, or shared with team members.
 
-## Need inspiration?
+## Key features
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+- **Quick and easy visualization** - Instantly generate a Markdown representation of your folder structure with a single click
+- **20+ customizable designs** - Choose from a variety of visual styles including ClassicDashes, EmojiDashes, MinimalistDots, Arrows, BoldBlocks, and many more
+- **Automatic formatting** - Generated structures are automatically wrapped in backticks for proper Markdown code formatting
+- **Clipboard integration** - Automatically copies the generated structure to the clipboard with user notification for easy pasting
+- **Flexible exclusions** - Exclude specific files and folders using glob patterns (like `**/node_modules`, `**/*.log`) for precise control over the generated structure
+- **Recursive control** - Toggle between full recursive exploration or shallow, top-level directory views
+- **Gitignore support** - Optionally respect `.gitignore` rules to exclude files that aren't relevant to your documentation
+- **Enhanced usability** - Designed for convenience, making folder structure sharing effortless
+
+## How it works
+
+The extension integrates directly into VS Code's file explorer context menu. When you right-click on any folder or file and select "Generate Markdown structure", the extension:
+
+1. Reads the folder structure using the configured settings
+2. Applies exclusion patterns and respects `.gitignore` if enabled
+3. Generates a formatted tree structure using your selected visual style
+4. Wraps the output in Markdown code blocks
+5. Copies the result to your clipboard
+6. Opens a new editor tab showing the generated structure
+
+The extension uses fast-glob for efficient file scanning and supports deep customization through VS Code's settings system.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Install the extension" icon="download" href="/installation">
+    Get started by installing from the VS Code Marketplace
+  </Card>
+  <Card title="Follow the quickstart" icon="bolt" href="/quickstart">
+    Learn how to generate your first folder structure
+  </Card>
+</CardGroup>

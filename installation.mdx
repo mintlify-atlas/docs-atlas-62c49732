@@ -1,0 +1,86 @@
+---
+title: Installation
+description: Install Draw Folder Structure from the VS Code Marketplace or GitHub releases
+---
+
+Draw Folder Structure is available through the Visual Studio Code Marketplace and can be installed with just a few clicks.
+
+## System requirements
+
+Before installing, ensure your system meets these requirements:
+
+- **Visual Studio Code** version 1.81.0 or higher
+- **Operating system**: Windows, macOS, or Linux
+
+## Install from VS Code Marketplace
+
+<Steps>
+  <Step title="Open the Extensions view">
+    In VS Code, click on the Extensions icon in the Activity Bar on the side of the window, or press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (macOS).
+  </Step>
+  
+  <Step title="Search for the extension">
+    Type "Draw Folder Structure" in the search bar. Look for the extension published by **jmkrivocapich**.
+  </Step>
+  
+  <Step title="Install">
+    Click the **Install** button next to the extension. VS Code will download and install the extension automatically.
+  </Step>
+  
+  <Step title="Verify installation">
+    Once installed, you should see "Generate Markdown structure" in the context menu when you right-click on any folder or file in the Explorer view.
+  </Step>
+</Steps>
+
+<Tip>
+  The extension activates automatically when you install it. No restart or additional configuration is required to start using it.
+</Tip>
+
+## Install from command line
+
+You can also install the extension using the VS Code command line:
+
+```bash
+code --install-extension jmkrivocapich.drawfolderstructure
+```
+
+This is useful for automated setups or when provisioning development environments.
+
+## Alternative: Manual installation from GitHub
+
+If you prefer to install from source or want to try development versions:
+
+<Steps>
+  <Step title="Download the VSIX file">
+    Go to the [GitHub releases page](https://github.com/krivoox/draw-folder-structure/releases) and download the latest `.vsix` file.
+  </Step>
+  
+  <Step title="Install from VSIX">
+    In VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), type "Extensions: Install from VSIX", and select the downloaded file.
+  </Step>
+  
+  <Step title="Reload VS Code">
+    After installation, reload VS Code if prompted to activate the extension.
+  </Step>
+</Steps>
+
+<Note>
+  Manual installation from GitHub is typically only needed for testing pre-release versions or if you're contributing to the extension's development.
+</Note>
+
+## Verify the installation
+
+To confirm the extension is installed and working:
+
+1. Open any project folder in VS Code
+2. Navigate to the Explorer view (file tree)
+3. Right-click on any folder or file
+4. Look for "Generate Markdown structure" in the context menu
+
+If you see this option, the extension is successfully installed and ready to use.
+
+## Next steps
+
+<Card title="Quickstart guide" icon="rocket" href="/quickstart">
+  Learn how to generate your first folder structure
+</Card>

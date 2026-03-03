@@ -1,0 +1,467 @@
+---
+title: 'Custom Styles'
+description: 'Explore 20+ visual styles for your folder structure output'
+icon: 'palette'
+---
+
+## Available Styles
+
+Draw Folder Structure offers over 20 different visual styles to match your documentation preferences. From minimalist ASCII to colorful emoji designs, there's a style for every taste.
+
+<Info>
+  The default style is **EmojiDashes**, which combines the classic tree structure with folder and file emojis.
+</Info>
+
+## Style Categories
+
+### Emoji Styles
+
+These styles use emojis to create visually appealing, modern folder structures.
+
+<Tabs>
+  <Tab title="EmojiDashes (Default)">
+    Combines classic dashes with emoji icons for folders and files.
+    
+    ```markdown
+    ```
+    └── 📁 my-project
+      ├──  package.json
+      ├──  README.md
+      ├── 📁 src
+        ├──  index.ts
+        ├──  types.ts
+        └── 📁 utils
+          ├──  helpers.ts
+          └──  constants.ts
+      └── 📁 tests
+        └──  index.test.ts
+    ```
+    ```
+    
+    **Best for:** General documentation, README files, GitHub repositories
+  </Tab>
+  
+  <Tab title="EmojiFun">
+    Fun and colorful emoji-only style.
+    
+    ```markdown
+    ```
+    📁 my-project
+      📄 package.json
+      📄 README.md
+      📁 src
+        📄 index.ts
+        📄 types.ts
+        📁 utils
+          📄 helpers.ts
+          📄 constants.ts
+      📁 tests
+        📄 index.test.ts
+    ```
+    ```
+    
+    **Best for:** Casual documentation, blog posts, tutorials
+  </Tab>
+  
+  <Tab title="EmojiMinimalist">
+    Minimal style with folder emojis and simple dashes for files.
+    
+    ```markdown
+    ```
+    📁 my-project
+      ─ package.json
+      ─ README.md
+      📁 src
+        ─ index.ts
+        ─ types.ts
+        📁 utils
+          ─ helpers.ts
+          ─ constants.ts
+      📁 tests
+        ─ index.test.ts
+    ```
+    ```
+    
+    **Best for:** Clean, modern documentation
+  </Tab>
+  
+  <Tab title="SparklesDesing">
+    Adds sparkle emojis for a magical touch.
+    
+    ```markdown
+    ```
+    📁✨ my-project
+      ✨ package.json
+      ✨ README.md
+      📁✨ src
+        ✨ index.ts
+        ✨ types.ts
+        📁✨ utils
+          ✨ helpers.ts
+          ✨ constants.ts
+    ```
+    ```
+    
+    **Best for:** Creative projects, personal portfolios
+  </Tab>
+  
+  <Tab title="TrailDesign">
+    Uses footprint emojis for a unique trail effect.
+    
+    ```markdown
+    ```
+    👣📁 my-project
+      👣📄 package.json
+      👣📄 README.md
+      👣📁 src
+        👣📄 index.ts
+        👣📄 types.ts
+    ```
+    ```
+    
+    **Best for:** Progress documentation, journey-style docs
+  </Tab>
+  
+  <Tab title="FloralDesign">
+    Beautiful floral-themed structure.
+    
+    ```markdown
+    ```
+    🌸📁 my-project
+      🌸📄 package.json
+      🌸📄 README.md
+      🌸📁 src
+        🌸📄 index.ts
+        🌸📄 types.ts
+    ```
+    ```
+    
+    **Best for:** Design-focused projects, nature themes
+  </Tab>
+  
+  <Tab title="GalacticDesign">
+    Space-themed with galaxy emojis.
+    
+    ```markdown
+    ```
+    🌌📁 my-project
+      🌌📄 package.json
+      🌌📄 README.md
+      🌌📁 src
+        🌌📄 index.ts
+        🌌📄 types.ts
+    ```
+    ```
+    
+    **Best for:** Sci-fi projects, space-themed documentation
+  </Tab>
+</Tabs>
+
+### ASCII/Text Styles
+
+These styles use only text characters, perfect for environments where emojis might not render properly.
+
+<Tabs>
+  <Tab title="ClassicDashes">
+    Traditional tree structure with dashes and pipes.
+    
+    ```markdown
+    ```
+    └── my-project
+      ├── package.json
+      ├── README.md
+      ├── src
+        ├── index.ts
+        ├── types.ts
+        └── utils
+          ├── helpers.ts
+          └── constants.ts
+      └── tests
+        └── index.test.ts
+    ```
+    ```
+    
+    **Best for:** Terminal output, code comments, traditional docs
+  </Tab>
+  
+  <Tab title="MinimalistDots">
+    Simple dots for a clean look.
+    
+    ```markdown
+    ```
+     • my-project
+       • package.json
+       • README.md
+       • src
+         • index.ts
+         • types.ts
+         • utils
+           • helpers.ts
+           • constants.ts
+       • tests
+         • index.test.ts
+    ```
+    ```
+    
+    **Best for:** Minimal documentation, bullet-point style
+  </Tab>
+  
+  <Tab title="Arrows">
+    Arrow indicators for a modern look.
+    
+    ```markdown
+    ```
+    ➜ my-project
+      ➜ package.json
+      ➜ README.md
+      ➜ src
+        ➜ index.ts
+        ➜ types.ts
+        ➜ utils
+          ➜ helpers.ts
+          ➜ constants.ts
+    ```
+    ```
+    
+    **Best for:** Navigation-focused documentation
+  </Tab>
+  
+  <Tab title="PipesAndHyphens">
+    Classic pipe and hyphen combination.
+    
+    ```markdown
+    ```
+    |- my-project
+      |- package.json
+      |- README.md
+      |- src
+        |- index.ts
+        |- types.ts
+        |- utils
+          |- helpers.ts
+          |- constants.ts
+    ```
+    ```
+    
+    **Best for:** Code documentation, inline comments
+  </Tab>
+  
+  <Tab title="Triangles">
+    Triangular indicators.
+    
+    ```markdown
+    ```
+    ▶ my-project
+      ▶ package.json
+      ▶ README.md
+      ▶ src
+        ▶ index.ts
+        ▶ types.ts
+        ▶ utils
+          ▶ helpers.ts
+          ▶ constants.ts
+    ```
+    ```
+    
+    **Best for:** Hierarchical documentation
+  </Tab>
+  
+  <Tab title="More Styles">
+    Additional ASCII styles available:
+    
+    - **NestedCircles**: `◉` and `○` symbols
+    - **BoldBlocks**: `■` block characters
+    - **SlashSeparators**: `/` forward slashes
+    - **ChevronIndicators**: `»` chevron symbols
+    - **DotDashMix**: Mixed `•` and `-` characters
+    - **Zigzag**: `↳` zigzag arrows
+    - **NestedSquares**: `■` and `□` squares
+    - **CirclesAndLines**: `◯` and `─` combination
+    
+    Each style offers a unique visual approach to representing your folder structure.
+  </Tab>
+</Tabs>
+
+## Comparing Styles
+
+### Emoji vs ASCII
+
+Choose between emoji and ASCII styles based on your use case:
+
+<CardGroup cols={2}>
+  <Card title="Emoji Styles" icon="smile">
+    **Pros:**
+    - Visually appealing and modern
+    - Instant recognition of files vs folders
+    - Great for web documentation
+    - More engaging for users
+    
+    **Cons:**
+    - May not render in all environments
+    - Can look inconsistent across platforms
+    - Not ideal for terminal/CLI docs
+  </Card>
+  
+  <Card title="ASCII Styles" icon="terminal">
+    **Pros:**
+    - Universal compatibility
+    - Renders correctly everywhere
+    - Professional appearance
+    - Perfect for code comments
+    
+    **Cons:**
+    - Less visually distinctive
+    - Can be harder to scan quickly
+    - May look dated in modern docs
+  </Card>
+</CardGroup>
+
+## How to Change Styles
+
+There are two ways to change the style used for generating folder structures:
+
+<Tabs>
+  <Tab title="VS Code Settings UI">
+    <Steps>
+      <Step title="Open Settings">
+        Press `Cmd/Ctrl+,` or go to **File > Preferences > Settings**
+      </Step>
+      
+      <Step title="Search for Draw Folder Structure">
+        Type "draw folder structure" in the search bar
+      </Step>
+      
+      <Step title="Select Style">
+        Find the **Draw Folder Structure: Style** dropdown and select your preferred style
+      </Step>
+      
+      <Step title="Generate Structure">
+        Your next generation will use the new style automatically
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="settings.json">
+    <Steps>
+      <Step title="Open settings.json">
+        Press `Cmd/Ctrl+Shift+P` and type "Preferences: Open User Settings (JSON)"
+      </Step>
+      
+      <Step title="Add Configuration">
+        Add or modify the style setting:
+        
+        ```json
+        {
+          "draw.folder.structure.style": "ClassicDashes"
+        }
+        ```
+      </Step>
+      
+      <Step title="Choose from Available Styles">
+        Replace `"ClassicDashes"` with any of these options:
+        
+        - `"EmojiDashes"` (default)
+        - `"EmojiFun"`
+        - `"EmojiMinimalist"`
+        - `"ClassicDashes"`
+        - `"MinimalistDots"`
+        - `"Arrows"`
+        - `"NestedCircles"`
+        - `"BoldBlocks"`
+        - `"SlashSeparators"`
+        - `"ChevronIndicators"`
+        - `"DotDashMix"`
+        - `"Triangles"`
+        - `"Zigzag"`
+        - `"PipesAndHyphens"`
+        - `"NestedSquares"`
+        - `"CirclesAndLines"`
+        - `"SparklesDesing"`
+        - `"TrailDesign"`
+        - `"FloralDesign"`
+        - `"GalacticDesign"`
+      </Step>
+      
+      <Step title="Save and Use">
+        Save the file and generate a new structure to see the changes
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Previewing Styles
+
+<Tip>
+  Want to see all styles in action? Try generating the same folder structure multiple times with different styles to find your favorite!
+</Tip>
+
+### Quick Preview Method
+
+1. Choose a small folder or file to test
+2. Generate the structure with the current style
+3. Change the style in settings
+4. Generate again to compare
+5. Repeat until you find the perfect style
+
+## Style Recommendations by Use Case
+
+<Accordion title="README Files">
+  **Recommended Styles:**
+  - **EmojiDashes** - Professional yet modern
+  - **ClassicDashes** - Traditional and clean
+  - **MinimalistDots** - Simple and elegant
+  
+  These styles are widely supported and render well on GitHub, GitLab, and other platforms.
+</Accordion>
+
+<Accordion title="Technical Documentation">
+  **Recommended Styles:**
+  - **ClassicDashes** - Professional standard
+  - **PipesAndHyphens** - Traditional technical style
+  - **MinimalistDots** - Clean and readable
+  
+  ASCII styles work best for technical documentation that might be viewed in various formats.
+</Accordion>
+
+<Accordion title="Blog Posts & Tutorials">
+  **Recommended Styles:**
+  - **EmojiFun** - Engaging and friendly
+  - **SparklesDesing** - Eye-catching
+  - **EmojiDashes** - Modern and clear
+  
+  Emoji styles make content more engaging and easier to scan in long-form content.
+</Accordion>
+
+<Accordion title="Code Comments">
+  **Recommended Styles:**
+  - **ClassicDashes** - Traditional format
+  - **MinimalistDots** - Compact
+  - **PipesAndHyphens** - Clean in monospace
+  
+  ASCII-only styles ensure consistent rendering in code editors and version control.
+</Accordion>
+
+<Accordion title="Project Presentations">
+  **Recommended Styles:**
+  - **EmojiDashes** - Professional with flair
+  - **EmojiFun** - Engaging and memorable
+  - **FloralDesign** or **GalacticDesign** - Unique themes
+  
+  Visual styles make presentations more memorable and easier to follow.
+</Accordion>
+
+## Next Steps
+
+<CardGroup cols={3}>
+  <Card title="Configuration" icon="gear" href="/guides/configuration">
+    Learn about all configuration options
+  </Card>
+  
+  <Card title="Exclude Patterns" icon="filter" href="/guides/exclusion-patterns">
+    Filter what appears in your structures
+  </Card>
+  
+  <Card title=".gitignore Integration" icon="git" href="/examples/gitignore-integration">
+    Automatically respect .gitignore rules
+  </Card>
+</CardGroup>

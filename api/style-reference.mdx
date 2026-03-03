@@ -1,0 +1,295 @@
+---
+title: Style Reference
+description: Complete reference for all 20 visual styles available in Draw Folder Structure
+---
+
+## Overview
+
+Draw Folder Structure offers 20+ predefined styles to customize the visual appearance of your folder structure output. Each style uses different characters, symbols, or emojis to represent folders and files.
+
+## Available Styles
+
+### Classic Styles
+
+<ResponseField name="ClassicDashes" type="string">
+  Traditional tree-style structure using dashes and corner characters.
+  
+  **Characters:**
+  - Folders: `└──` / `📁`
+  - Files: `├──` or `└──` (last item)
+  
+  **Best for:** Professional documentation, READMEs, traditional project documentation
+</ResponseField>
+
+<ResponseField name="MinimalistDots" type="string">
+  Clean and minimal style using bullet points.
+  
+  **Characters:**
+  - Folders: `•`
+  - Files: `•`
+  
+  **Best for:** Simple, uncluttered documentation with minimal visual noise
+</ResponseField>
+
+<ResponseField name="PipesAndHyphens" type="string">
+  Box-drawing style with pipes and hyphens.
+  
+  **Characters:**
+  - Folders: `|-`
+  - Files: `|-`
+  
+  **Best for:** Technical documentation, system diagrams
+</ResponseField>
+
+### Emoji Styles
+
+<ResponseField name="EmojiDashes" type="string">
+  Combines classic tree structure with folder emoji. **Default style.**
+  
+  **Characters:**
+  - Folders: `└── 📁`
+  - Files: `├──` or `└──` (last item)
+  
+  **Best for:** Modern documentation with visual hierarchy
+</ResponseField>
+
+<ResponseField name="EmojiFun" type="string">
+  Fun emoji-based style using folder and document icons.
+  
+  **Characters:**
+  - Folders: `📁`
+  - Files: `📄`
+  
+  **Best for:** Casual documentation, tutorials, friendly guides
+</ResponseField>
+
+<ResponseField name="EmojiMinimalist" type="string">
+  Minimalist approach with selective emoji use.
+  
+  **Characters:**
+  - Folders: `📁`
+  - Files: `─`
+  
+  **Best for:** Balance between visual interest and simplicity
+</ResponseField>
+
+### Themed Emoji Styles
+
+<ResponseField name="SparklesDesing" type="string">
+  Adds sparkle emoji for a magical, highlighted appearance.
+  
+  **Characters:**
+  - Folders: `📁✨`
+  - Files: `✨`
+  
+  **Best for:** Highlighting new or special features, festive documentation
+</ResponseField>
+
+<ResponseField name="TrailDesign" type="string">
+  Uses footprint emoji to suggest a path or journey.
+  
+  **Characters:**
+  - Folders: `👣📁`
+  - Files: `👣📄`
+  
+  **Best for:** Tutorial paths, learning journeys, step-by-step guides
+</ResponseField>
+
+<ResponseField name="FloralDesign" type="string">
+  Floral theme with flower emoji.
+  
+  **Characters:**
+  - Folders: `🌸📁`
+  - Files: `🌸📄`
+  
+  **Best for:** Creative projects, design documentation, artistic themes
+</ResponseField>
+
+<ResponseField name="GalacticDesign" type="string">
+  Space-themed with galaxy emoji.
+  
+  **Characters:**
+  - Folders: `🌌📁`
+  - Files: `🌌📄`
+  
+  **Best for:** Sci-fi projects, astronomy-related documentation, cosmic themes
+</ResponseField>
+
+### Symbol Styles
+
+<ResponseField name="Arrows" type="string">
+  Arrow-based navigation style.
+  
+  **Characters:**
+  - Folders: `➜`
+  - Files: `➜`
+  
+  **Best for:** Navigation documentation, flow diagrams
+</ResponseField>
+
+<ResponseField name="ChevronIndicators" type="string">
+  Double-angle quotation marks for hierarchy.
+  
+  **Characters:**
+  - Folders: `»`
+  - Files: `»`
+  
+  **Best for:** Nested navigation, menu structures
+</ResponseField>
+
+<ResponseField name="Triangles" type="string">
+  Triangle pointers for directional emphasis.
+  
+  **Characters:**
+  - Folders: `▶`
+  - Files: `▶`
+  
+  **Best for:** Expandable/collapsible structure references
+</ResponseField>
+
+<ResponseField name="Zigzag" type="string">
+  Curved arrow style suggesting flow.
+  
+  **Characters:**
+  - Folders: `↳`
+  - Files: `↳`
+  
+  **Best for:** Process flows, dependencies
+</ResponseField>
+
+### Shape Styles
+
+<ResponseField name="NestedCircles" type="string">
+  Circular shapes to show hierarchy.
+  
+  **Characters:**
+  - Folders: `◉` (filled circle)
+  - Files: `○` (hollow circle)
+  
+  **Best for:** Visual distinction between folders and files
+</ResponseField>
+
+<ResponseField name="CirclesAndLines" type="string">
+  Combines circles with horizontal lines.
+  
+  **Characters:**
+  - Folders: `◯`
+  - Files: `─`
+  
+  **Best for:** Clean hierarchy with clear file/folder distinction
+</ResponseField>
+
+<ResponseField name="NestedSquares" type="string">
+  Square shapes for geometric appearance.
+  
+  **Characters:**
+  - Folders: `■` (filled square)
+  - Files: `□` (hollow square)
+  
+  **Best for:** Structured, grid-like documentation
+</ResponseField>
+
+<ResponseField name="BoldBlocks" type="string">
+  Bold square blocks for emphasis.
+  
+  **Characters:**
+  - Folders: `■`
+  - Files: `■`
+  
+  **Best for:** High-contrast, bold documentation
+</ResponseField>
+
+### Mixed Styles
+
+<ResponseField name="DotDashMix" type="string">
+  Combines dots for folders and dashes for files.
+  
+  **Characters:**
+  - Folders: `•`
+  - Files: `-`
+  
+  **Best for:** Clear visual separation between folders and files
+</ResponseField>
+
+<ResponseField name="SlashSeparators" type="string">
+  Forward slash style suggesting paths.
+  
+  **Characters:**
+  - Folders: `/`
+  - Files: `/`
+  
+  **Best for:** Path-like representations, URL structures
+</ResponseField>
+
+## Style Enum Reference
+
+The styles are defined in the TypeScript enum located at `src/types/style.ts`:
+
+```typescript src/types/style.ts
+export enum Style {
+  ClassicDashes = 'ClassicDashes',
+  SparklesDesing = 'SparklesDesing',
+  TrailDesign = 'TrailDesign',
+  FloralDesign = 'FloralDesign',
+  GalacticDesign = 'GalacticDesign',
+  MinimalistDots = 'MinimalistDots',
+  EmojiFun = 'EmojiFun',
+  EmojiMinimalist = 'EmojiMinimalist',
+  EmojiDashes = 'EmojiDashes',
+  Arrows = 'Arrows',
+  NestedCircles = 'NestedCircles',
+  BoldBlocks = 'BoldBlocks',
+  SlashSeparators = 'SlashSeparators',
+  ChevronIndicators = 'ChevronIndicators',
+  DotDashMix = 'DotDashMix',
+  Triangles = 'Triangles',
+  Zigzag = 'Zigzag',
+  PipesAndHyphens = 'PipesAndHyphens',
+  NestedSquares = 'NestedSquares',
+  CirclesAndLines = 'CirclesAndLines',
+}
+```
+
+## Setting a Style
+
+To configure a style, set the `draw.folder.structure.style` option in your `settings.json`:
+
+```json settings.json
+{
+  "draw.folder.structure.style": "ClassicDashes"
+}
+```
+
+Or use the VS Code settings UI:
+
+1. Open Settings (`Ctrl+,` or `Cmd+,`)
+2. Search for "Draw Folder Structure"
+3. Select your preferred style from the dropdown
+
+## Style Selection Guide
+
+<AccordionGroup>
+  <Accordion title="For Professional Documentation">
+    Recommended: `ClassicDashes`, `PipesAndHyphens`, `MinimalistDots`
+    
+    These styles provide clean, professional output suitable for technical documentation and README files.
+  </Accordion>
+  
+  <Accordion title="For Visual Appeal">
+    Recommended: `EmojiDashes`, `EmojiFun`, `SparklesDesing`
+    
+    These styles add visual interest while maintaining readability.
+  </Accordion>
+  
+  <Accordion title="For Themed Projects">
+    Recommended: `TrailDesign`, `FloralDesign`, `GalacticDesign`
+    
+    These styles add personality and thematic consistency to your documentation.
+  </Accordion>
+  
+  <Accordion title="For Minimal Clutter">
+    Recommended: `MinimalistDots`, `EmojiMinimalist`, `SlashSeparators`
+    
+    These styles reduce visual noise while maintaining structure clarity.
+  </Accordion>
+</AccordionGroup>

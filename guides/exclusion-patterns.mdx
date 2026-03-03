@@ -1,0 +1,520 @@
+---
+title: 'Exclusion Patterns'
+description: 'Learn how to exclude files and folders using glob patterns'
+---
+
+## Overview
+
+Exclusion patterns allow you to control which files and folders appear in your generated structure. This is essential for creating clean, focused documentation by omitting build artifacts, dependencies, and other irrelevant items.
+
+## How Exclusion Patterns Work
+
+The extension uses **glob pattern syntax** to match files and folders for exclusion. Patterns are matched against the full path of each item relative to your project root.
+
+<Note>
+  The extension uses the [fast-glob](https://github.com/mrmlnc/fast-glob) library for pattern matching, which supports standard glob syntax.
+</Note>
+
+## Glob Pattern Syntax
+
+Understanding glob patterns is key to effective exclusions:
+
+<AccordionGroup>
+  <Accordion title="Basic Wildcards" defaultOpen>
+    **`*`** - Matches any characters except `/`
+    ```json
+    "*.log"  // Matches: error.log, debug.log
+    ```
+
+    **`**`** - Matches any characters including `/` (recursive)
+    ```json
+    "**/node_modules"  // Matches node_modules at any depth
+    ```
+
+    **`?`** - Matches exactly one character
+    ```json
+    "file?.txt"  // Matches: file1.txt, fileA.txt
+    ```
+  </Accordion>
+
+  <Accordion title="Character Sets">
+    **`[abc]`** - Matches any character in the set
+    ```json
+    "file[123].txt"  // Matches: file1.txt, file2.txt, file3.txt
+    ```
+
+    **`[a-z]`** - Matches any character in the range
+    ```json
+    "[A-Z]*.js"  // Matches: App.js, Button.js, etc.
+    ```
+
+    **`[!abc]`** - Matches any character NOT in the set
+    ```json
+    "file[!0-9].txt"  // Matches: fileA.txt, but not file1.txt
+    ```
+  </Accordion>
+
+  <Accordion title="Brace Expansion">
+    **`{a,b,c}`** - Matches any of the comma-separated patterns
+    ```json
+    "*.{js,ts,jsx,tsx}"  // Matches JS and TS files
+    ```
+
+    ```json
+    "**/{dist,build,out}"  // Matches dist, build, or out folders
+    ```
+  </Accordion>
+
+  <Accordion title="Negation">
+    **`!pattern`** - Includes items that match the pattern (overrides exclusions)
+    ```json
+    [
+      "**/test",      // Exclude all test folders
+      "!**/test/fixtures"  // But include test/fixtures
+    ]
+    ```
+
+    <Warning>
+      Negation patterns must come after the patterns they're overriding.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+## Default Exclusion Patterns
+
+The extension comes with sensible defaults that exclude common build artifacts and dependencies:
+
+```json
+[
+  "**/node_modules",
+  "**/.git",
+  "**/dist",
+  "**/.next",
+  "**/out"
+]
+```
+
+### Why These Defaults?
+
+- **`**/node_modules`** - npm/yarn dependencies (can contain thousands of files)
+- **`**/.git`** - Git internal files (not relevant for structure documentation)
+- **`**/dist`** - Compiled/built files
+- **`**/.next`** - Next.js build output
+- **`**/out`** - Common output directory name
+
+<Note>
+  These defaults are a starting point. You can modify or extend them based on your project's needs.
+</Note>
+
+## Common Exclusion Patterns
+
+### Exclude by Folder Name
+
+Exclude specific folders anywhere in your project:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/build",
+    "**/coverage",
+    "**/.vscode",
+    "**/.idea",
+    "**/temp",
+    "**/tmp"
+  ]
+}
+```
+
+### Exclude by File Extension
+
+Exclude all files with specific extensions:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/*.log",      // Log files
+    "**/*.tmp",      // Temporary files
+    "**/*.cache",    // Cache files
+    "**/*.lock",     // Lock files
+    "**/*.map",      // Source maps
+    "**/*.min.js",   // Minified JavaScript
+    "**/*.min.css"   // Minified CSS
+  ]
+}
+```
+
+### Exclude Specific Files
+
+Exclude specific files by name:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/package-lock.json",
+    "**/yarn.lock",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.env",
+    "**/.env.local"
+  ]
+}
+```
+
+### Framework-Specific Patterns
+
+<Tabs>
+  <Tab title="React/Next.js">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",
+        "**/.next",
+        "**/out",
+        "**/build",
+        "**/.cache",
+        "**/public/static"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Vue/Nuxt">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",
+        "**/.nuxt",
+        "**/dist",
+        "**/.output",
+        "**/coverage"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Angular">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/node_modules",
+        "**/dist",
+        "**/.angular",
+        "**/coverage",
+        "**/e2e"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/__pycache__",
+        "**/*.pyc",
+        "**/.pytest_cache",
+        "**/venv",
+        "**/.venv",
+        "**/env",
+        "**/.env",
+        "**/dist",
+        "**/*.egg-info"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Rust">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/target",
+        "**/Cargo.lock"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Go">
+    ```json
+    {
+      "draw.folder.structure.exclude": [
+        "**/vendor",
+        "**/bin",
+        "**/*.exe"
+      ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Advanced Pattern Examples
+
+### Exclude Multiple File Types
+
+Use brace expansion for multiple extensions:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/*.{log,tmp,cache,swp,bak}"
+  ]
+}
+```
+
+### Exclude Test Files
+
+Exclude various test file patterns:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/*.test.{js,ts,jsx,tsx}",
+    "**/*.spec.{js,ts,jsx,tsx}",
+    "**/__tests__",
+    "**/test",
+    "**/tests"
+  ]
+}
+```
+
+### Exclude Hidden Files and Folders
+
+Exclude items starting with a dot:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/.*",           // All hidden files and folders
+    "!**/.gitignore",  // But keep .gitignore visible
+    "!**/.env.example" // And keep .env.example visible
+  ]
+}
+```
+
+### Platform-Specific Files
+
+Exclude OS-specific files:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/.DS_Store",      // macOS
+    "**/Thumbs.db",      // Windows
+    "**/desktop.ini",    // Windows
+    "**/.Spotlight-V100", // macOS
+    "**/.Trashes"        // macOS
+  ]
+}
+```
+
+## Pattern Matching Examples
+
+Here are some real-world examples showing what different patterns match:
+
+<CodeGroup>
+```text Pattern: **/node_modules
+Matches:
+  ✓ node_modules
+  ✓ packages/app/node_modules
+  ✓ src/lib/node_modules
+  ✗ node_modules_backup
+```
+
+```text Pattern: **/*.log
+Matches:
+  ✓ error.log
+  ✓ logs/debug.log
+  ✓ src/app/output.log
+  ✗ logger.js
+```
+
+```text Pattern: dist
+Matches:
+  ✓ dist (only at root)
+  ✗ packages/app/dist
+  ✗ src/dist
+```
+
+```text Pattern: **/dist
+Matches:
+  ✓ dist
+  ✓ packages/app/dist
+  ✓ src/dist
+```
+</CodeGroup>
+
+## Combining with .gitignore
+
+When you enable the `respectGitignore` setting, exclusion patterns work alongside your `.gitignore` rules:
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/dist"
+  ],
+  "draw.folder.structure.respectGitignore": true
+}
+```
+
+<Warning>
+  Files matching EITHER your exclusion patterns OR .gitignore rules will be excluded. They work additively, not as overrides.
+</Warning>
+
+### When to Use Each
+
+**Exclusion Patterns:**
+- Project structure standards
+- Build artifacts
+- Documentation-specific exclusions
+
+**.gitignore Integration:**
+- Version control exclusions
+- Environment-specific files
+- Generated code
+
+See the [Advanced Usage](/guides/advanced-usage) guide for more details on combining these features.
+
+## Testing Your Patterns
+
+To test if your patterns work as expected:
+
+1. Configure your exclusion patterns
+2. Right-click on a folder in VS Code
+3. Select "Generate Markdown structure"
+4. Review the generated output
+5. Adjust patterns as needed
+
+<Tip>
+  Start with broad patterns and refine them based on the output. It's easier to remove exclusions than to add them iteratively.
+</Tip>
+
+## Common Mistakes
+
+<AccordionGroup>
+  <Accordion title="Forgetting the ** prefix">
+    **Wrong:** `"node_modules"`
+    
+    This only matches `node_modules` at the root.
+
+    **Correct:** `"**/node_modules"`
+    
+    This matches `node_modules` at any level.
+  </Accordion>
+
+  <Accordion title="Using backslashes on Windows">
+    **Wrong:** `"**\\dist"`
+    
+    Always use forward slashes in glob patterns.
+
+    **Correct:** `"**/dist"`
+    
+    Forward slashes work on all platforms.
+  </Accordion>
+
+  <Accordion title="Negation pattern order">
+    **Wrong:**
+    ```json
+    [
+      "!**/important.log",
+      "**/*.log"
+    ]
+    ```
+
+    **Correct:**
+    ```json
+    [
+      "**/*.log",
+      "!**/important.log"
+    ]
+    ```
+    
+    Negation patterns must come after what they're overriding.
+  </Accordion>
+
+  <Accordion title="Excluding too much">
+    Be careful not to exclude important project files:
+    
+    **Too broad:** `"**/src"`
+    
+    This excludes your entire source directory!
+
+    **Better:** `"**/src/generated"`
+    
+    Be specific about what you want to exclude.
+  </Accordion>
+</AccordionGroup>
+
+## Configuration Templates
+
+### Minimal (Keep Defaults)
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/.next",
+    "**/out"
+  ]
+}
+```
+
+### Comprehensive Web Project
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/build",
+    "**/.next",
+    "**/out",
+    "**/coverage",
+    "**/.cache",
+    "**/*.log",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.vscode",
+    "**/.idea",
+    "**/*.min.js",
+    "**/*.min.css",
+    "**/*.map"
+  ]
+}
+```
+
+### Documentation-Focused
+
+```json
+{
+  "draw.folder.structure.exclude": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist",
+    "**/build",
+    "**/*.test.{js,ts}",
+    "**/*.spec.{js,ts}",
+    "**/__tests__",
+    "**/coverage",
+    "**/.vscode",
+    "**/*.log",
+    "**/package-lock.json",
+    "**/yarn.lock"
+  ]
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration" icon="gear" href="/guides/configuration">
+    Learn about all configuration options
+  </Card>
+  <Card title="Advanced Usage" icon="wand-magic-sparkles" href="/guides/advanced-usage">
+    Combine exclusions with other advanced features
+  </Card>
+  <Card title="Styling Options" icon="palette" href="/guides/styling-options">
+    Customize the visual appearance of your structure
+  </Card>
+</CardGroup>

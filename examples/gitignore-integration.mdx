@@ -1,0 +1,536 @@
+---
+title: '.gitignore Integration'
+description: 'Automatically exclude files and folders based on your .gitignore rules'
+icon: 'git-alt'
+---
+
+## Overview
+
+The `.gitignore` integration feature allows Draw Folder Structure to automatically exclude files and folders that are already ignored by Git. This is perfect for creating clean documentation that only shows the relevant parts of your project.
+
+<Info>
+  By default, this feature is **disabled**. You need to enable it in your VS Code settings.
+</Info>
+
+## Why Use .gitignore Integration?
+
+When documenting your project structure, you typically don't want to include:
+
+- `node_modules/` - Dependencies that bloat the output
+- `dist/` or `build/` - Compiled/generated files
+- `.env` files - Environment variables
+- IDE-specific files - `.vscode/`, `.idea/`
+- OS files - `.DS_Store`, `Thumbs.db`
+- Temporary files - `*.log`, `*.tmp`
+
+If you already have these patterns in your `.gitignore`, why duplicate them in the extension settings?
+
+## Enabling .gitignore Integration
+
+<Tabs>
+  <Tab title="VS Code Settings UI">
+    <Steps>
+      <Step title="Open Settings">
+        Press `Cmd/Ctrl+,` or go to **File > Preferences > Settings**
+      </Step>
+      
+      <Step title="Search for the Setting">
+        Type "draw folder structure gitignore" in the search bar
+      </Step>
+      
+      <Step title="Enable the Checkbox">
+        Check the box for **Draw Folder Structure: Respect Gitignore**
+      </Step>
+      
+      <Step title="Generate Structure">
+        The next time you generate a structure, .gitignore rules will be applied
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="settings.json">
+    <Steps>
+      <Step title="Open settings.json">
+        Press `Cmd/Ctrl+Shift+P` and type "Preferences: Open User Settings (JSON)"
+      </Step>
+      
+      <Step title="Add Configuration">
+        Add this line to your settings:
+        
+        ```json
+        {
+          "draw.folder.structure.respectGitignore": true
+        }
+        ```
+      </Step>
+      
+      <Step title="Save and Use">
+        Save the file and generate a structure to see the difference
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## How It Works
+
+When `respectGitignore` is enabled, the extension:
+
+1. Looks for a `.gitignore` file in your project root
+2. Parses all the ignore patterns defined in it
+3. Applies those patterns during structure generation
+4. Excludes any matching files and folders from the output
+
+<Note>
+  The extension uses the same ignore matching logic as Git, supporting all standard .gitignore patterns and syntax.
+</Note>
+
+## Example Comparison
+
+See the difference between structures generated with and without .gitignore integration:
+
+### Sample .gitignore File
+
+```text .gitignore
+node_modules
+dist
+build
+.env
+.DS_Store
+*.log
+coverage
+.vscode-test
+```
+
+### Without .gitignore Integration
+
+When `respectGitignore` is `false` (default):
+
+<CodeGroup>
+```markdown Full Structure
+```
+└── 📁 my-app
+  ├──  package.json
+  ├──  tsconfig.json
+  ├──  .env
+  ├──  .DS_Store
+  ├── 📁 node_modules
+    ├── 📁 express
+    ├── 📁 react
+    └── 📁 typescript
+  ├── 📁 dist
+    ├──  index.js
+    └──  index.js.map
+  ├── 📁 src
+    ├──  index.ts
+    ├──  app.ts
+    └── 📁 components
+      ├──  Header.tsx
+      └──  Footer.tsx
+  ├── 📁 coverage
+    └──  lcov.info
+  └──  debug.log
+```
+```
+</CodeGroup>
+
+Notice how the output includes:
+- All `node_modules` dependencies
+- The `dist` build folder
+- `.env` and `.DS_Store` files
+- `coverage` reports
+- `*.log` files
+
+This creates a cluttered structure that's hard to read and not useful for documentation.
+
+### With .gitignore Integration
+
+When `respectGitignore` is `true`:
+
+<CodeGroup>
+```markdown Clean Structure
+```
+└── 📁 my-app
+  ├──  package.json
+  ├──  tsconfig.json
+  └── 📁 src
+    ├──  index.ts
+    ├──  app.ts
+    └── 📁 components
+      ├──  Header.tsx
+      └──  Footer.tsx
+```
+```
+</CodeGroup>
+
+Much cleaner! The output only shows:
+- Configuration files
+- Source code directory
+- Actual application files
+
+This is exactly what you want in documentation - a clear view of the project structure without the noise.
+
+## Use Cases
+
+### 1. Repository Documentation
+
+<Accordion title="Creating README Project Structure">
+  When documenting your repository in a README file, you want to show the source structure, not dependencies.
+  
+  **Configuration:**
+  ```json
+  {
+    "draw.folder.structure.respectGitignore": true
+  }
+  ```
+  
+  **Result:**
+  Only the committed source files appear in the structure, making your README clean and professional.
+</Accordion>
+
+### 2. Architecture Documentation
+
+<Accordion title="Documenting Application Architecture">
+  When explaining your application's architecture, you want to focus on the logical structure, not build artifacts.
+  
+  **Configuration:**
+  ```json
+  {
+    "draw.folder.structure.respectGitignore": true,
+    "draw.folder.structure.style": "ClassicDashes"
+  }
+  ```
+  
+  **Result:**
+  A clean, professional structure showing only the architectural components.
+</Accordion>
+
+### 3. Onboarding Documentation
+
+<Accordion title="Helping New Team Members">
+  New developers need to understand the source code structure, not the build system.
+  
+  **Configuration:**
+  ```json
+  {
+    "draw.folder.structure.respectGitignore": true,
+    "draw.folder.structure.exclude": ["**/tests", "**/*.test.ts"]
+  }
+  ```
+  
+  **Result:**
+  A beginner-friendly structure showing the core application code without tests or build artifacts.
+</Accordion>
+
+### 4. PR Descriptions
+
+<Accordion title="Showing Changes in Pull Requests">
+  When creating a pull request that restructures code, show only the relevant source structure.
+  
+  **Configuration:**
+  ```json
+  {
+    "draw.folder.structure.respectGitignore": true
+  }
+  ```
+  
+  **Result:**
+  Reviewers see the actual code organization without being distracted by dependencies or build files.
+</Accordion>
+
+## Combining with Exclude Patterns
+
+You can use both `.gitignore` integration and custom exclude patterns together for maximum control:
+
+```json settings.json
+{
+  "draw.folder.structure.respectGitignore": true,
+  "draw.folder.structure.exclude": [
+    "**/tests",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/mocks"
+  ]
+}
+```
+
+This configuration:
+1. Excludes everything from `.gitignore` (dependencies, build files, etc.)
+2. Additionally excludes test files and mock data
+3. Results in a super clean structure showing only production code
+
+<Tip>
+  Use `.gitignore` integration for general exclusions (dependencies, builds) and custom exclude patterns for project-specific filtering (tests, examples, etc.).
+</Tip>
+
+## Common .gitignore Patterns
+
+Here are common patterns that work well with the integration:
+
+<Tabs>
+  <Tab title="Node.js Projects">
+    ```text .gitignore
+    # Dependencies
+    node_modules/
+    package-lock.json
+    yarn.lock
+    
+    # Build output
+    dist/
+    build/
+    out/
+    .next/
+    
+    # Environment
+    .env
+    .env.local
+    .env.*.local
+    
+    # Testing
+    coverage/
+    .nyc_output/
+    
+    # Logs
+    *.log
+    npm-debug.log*
+    
+    # OS files
+    .DS_Store
+    Thumbs.db
+    ```
+  </Tab>
+  
+  <Tab title="Python Projects">
+    ```text .gitignore
+    # Virtual environments
+    venv/
+    env/
+    .venv/
+    
+    # Compiled Python
+    __pycache__/
+    *.py[cod]
+    *$py.class
+    *.so
+    
+    # Distribution
+    dist/
+    build/
+    *.egg-info/
+    
+    # Testing
+    .pytest_cache/
+    .coverage
+    htmlcov/
+    
+    # IDE
+    .vscode/
+    .idea/
+    *.swp
+    ```
+  </Tab>
+  
+  <Tab title="Java Projects">
+    ```text .gitignore
+    # Compiled class files
+    *.class
+    
+    # Package files
+    *.jar
+    *.war
+    *.ear
+    
+    # Build directories
+    target/
+    build/
+    bin/
+    
+    # IDE files
+    .idea/
+    *.iml
+    .eclipse/
+    
+    # Logs
+    *.log
+    ```
+  </Tab>
+  
+  <Tab title="Generic Projects">
+    ```text .gitignore
+    # Build output
+    dist/
+    build/
+    out/
+    
+    # Dependencies
+    vendor/
+    packages/
+    
+    # Environment
+    .env
+    .env.*
+    
+    # Logs
+    *.log
+    logs/
+    
+    # OS files
+    .DS_Store
+    Thumbs.db
+    desktop.ini
+    
+    # IDE
+    .vscode/
+    .idea/
+    *.swp
+    *~
+    ```
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Keep .gitignore Updated" icon="arrows-rotate">
+    Regularly update your `.gitignore` to include new build artifacts or dependencies. The extension will automatically pick up changes.
+  </Card>
+  
+  <Card title="Use for Documentation" icon="book">
+    Enable this feature specifically when generating structures for documentation. Disable it if you need to see all files for debugging.
+  </Card>
+  
+  <Card title="Test Both Modes" icon="flask">
+    Generate structures with and without .gitignore integration to see which gives you the view you need.
+  </Card>
+  
+  <Card title="Combine with Recursion" icon="layer-group">
+    For large projects, combine .gitignore integration with recursion control for optimal results:
+    
+    ```json
+    {
+      "draw.folder.structure.respectGitignore": true,
+      "draw.folder.structure.allowRecursion": true
+    }
+    ```
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<Accordion title=".gitignore not being respected">
+  **Possible causes:**
+  
+  1. **Feature not enabled**: Verify `respectGitignore` is set to `true` in settings
+  2. **No .gitignore file**: Make sure a `.gitignore` file exists in your project root
+  3. **Pattern syntax**: Check that your .gitignore patterns are valid
+  4. **Cache issues**: Try reloading VS Code window (Cmd/Ctrl+Shift+P > "Reload Window")
+  
+  **Solution:**
+  ```json
+  {
+    "draw.folder.structure.respectGitignore": true
+  }
+  ```
+  
+  Make sure the .gitignore file is at your project root level.
+</Accordion>
+
+<Accordion title="Too many files still showing">
+  **Issue**: Even with .gitignore enabled, you're seeing files you want to exclude.
+  
+  **Solution**: Combine .gitignore with custom exclude patterns:
+  
+  ```json
+  {
+    "draw.folder.structure.respectGitignore": true,
+    "draw.folder.structure.exclude": [
+      "**/tests",
+      "**/docs",
+      "**/*.md"
+    ]
+  }
+  ```
+</Accordion>
+
+<Accordion title="Missing files I want to see">
+  **Issue**: .gitignore is excluding files you want in the structure.
+  
+  **Solution**: Either:
+  1. Disable `respectGitignore` temporarily
+  2. Remove those patterns from .gitignore
+  3. Use separate documentation-specific patterns in the exclude setting
+  
+  ```json
+  {
+    "draw.folder.structure.respectGitignore": false,
+    "draw.folder.structure.exclude": ["**/node_modules", "**/dist"]
+  }
+  ```
+</Accordion>
+
+## Real-World Example
+
+Let's see a complete example from a typical VS Code extension project:
+
+### Project .gitignore
+
+```text .gitignore
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
+.DS_Store
+.env
+```
+
+### Settings Configuration
+
+```json settings.json
+{
+  "draw.folder.structure.style": "EmojiDashes",
+  "draw.folder.structure.respectGitignore": true,
+  "draw.folder.structure.allowRecursion": true
+}
+```
+
+### Generated Structure
+
+```markdown
+```
+└── 📁 draw-folder-structure
+  ├──  package.json
+  ├──  tsconfig.json
+  ├──  README.md
+  └── 📁 src
+    ├──  extension.ts
+    ├── 📁 functions
+      ├──  generate-structure.ts
+      ├──  find-files.ts
+      └──  get-prefix.ts
+    ├── 📁 services
+      └──  telemetry.ts
+    ├── 📁 types
+      └──  style.ts
+    └── 📁 assets
+      ├──  drawstructurelogo.png
+      └──  screen01.png
+```
+```
+
+Perfect for documentation! No `node_modules`, no `out` folder, no build artifacts - just the source code structure.
+
+## Next Steps
+
+<CardGroup cols={3}>
+  <Card title="Exclude Patterns" icon="filter" href="/guides/exclusion-patterns">
+    Learn about custom exclusion patterns for fine-grained control
+  </Card>
+  
+  <Card title="All Settings" icon="gear" href="/guides/configuration">
+    Explore all available configuration options
+  </Card>
+  
+  <Card title="Custom Styles" icon="palette" href="/examples/custom-styles">
+    Choose from 20+ visual styles for your structures
+  </Card>
+</CardGroup>
